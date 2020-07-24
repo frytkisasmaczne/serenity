@@ -214,7 +214,7 @@ fn _flexible_ffmpeg_optioned(args: &[&str], is_stereo_known: Option<bool>) -> Re
         .spawn()?;
     println!("{:?}", &command);
 
-    Ok(pcm(is_stereo, ChildContainer(command)))
+    Ok(opus(is_stereo, ChildContainer(command)))
 }
 
 
