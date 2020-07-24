@@ -197,6 +197,26 @@ fn _ffmpeg_optioned(path: &OsStr, args: &[&str], is_stereo_known: Option<bool>) 
     Ok(pcm(is_stereo, ChildContainer(command)))
 }
 
+pub fn flexible_ffmpeg_optioned(args: &[&str]) -> Result<Box<dyn AudioSource>> {
+    _flexible_ffmpeg_optioned(args, Some(true))
+}
+
+fn _flexible_ffmpeg_optioned(args: &[&str], is_stereo_known: Option<bool>) -> Result<Box<dyn AudioSource>> {
+    let is_stereo = is_stereo_known
+        .or_else(|| Some(true))
+        .unwrap_or(false);
+
+    let command = Command::new("ffmpeg")
+        .args(args)
+        .stderr(Stdio::null())
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .spawn()?;
+
+    Ok(pcm(is_stereo, ChildContainer(command)))
+}
+
+
 /// Creates a streamed audio source from a DCA file.
 /// Currently only accepts the DCA1 format.
 pub fn dca<P: AsRef<OsStr>>(path: P) -> StdResult<Box<dyn AudioSource>, DcaError> {
