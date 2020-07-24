@@ -21,6 +21,7 @@ pub use self::{
         dca,
         ffmpeg,
         ffmpeg_optioned,
+        flexible_ffmpeg_optioned,
         opus,
         pcm,
         ytdl,
