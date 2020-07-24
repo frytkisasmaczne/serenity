@@ -212,6 +212,7 @@ fn _flexible_ffmpeg_optioned(args: &[&str], is_stereo_known: Option<bool>) -> Re
         .stdin(Stdio::null())
         .stdout(Stdio::piped())
         .spawn()?;
+    println!("{:?}", &command);
 
     Ok(pcm(is_stereo, ChildContainer(command)))
 }
